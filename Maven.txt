@@ -1,0 +1,170 @@
+
+Maven:
+-----
+ 
+Q)what is maven?
+   maven is a application build tool.help to build an java application.
+
+Q)what is application build tool?
+   which will help to develop an application.
+
+Q)why maven need?
+   To build an java application.
+
+eg:    
+        compile
+  .java --------> .class
+  source         target/executable
+Q)what is compiler ?
+  it is a software, which will help to convert from high level language to low level language (or) machine language. 
+
+  1 java file ---------> 1 .class file
+  10 java files ---------> 10 .class files
+ 100 java files ----------> 100 .class files
+
+  .java -----> .class(bundle) ----> .jar(bundle) ---->.war
+  
+   group of .class files is called .jar file (java archive)
+   
+   group of .jar files is called .war file (web archive)
+
+   .ear --> enterprise web archive
+
+
+pre-requisities:
+---------------
+   java    ---> yum -y install java-1.8.0-openjdk
+   
+   javac   ---> yum -y install java-1.8.0-openjdk-devel
+
+maven uses pom.xml(project object modules) to define the project and it's dependencies. it will help to build the structure of the project,associate the files and help to build the application.
+
+Q)how to download and install maven?
+ 1)go to maven site , and download .tar.gz file
+ 2)extract the file (tar xvfz zpzxhe-mzven-xxx.tar.gz -C /opt/)
+ 3)configure it for a user 
+   M2_HOME=/opt/apache-maven-xxx
+   PATH=$PATH:$M2_HOME/bin
+  configure on command line and make them permanent so place in user home_dir ~/user/.bash_profile
+ 4)mvn --version
+  
+
+maven commands:
+---------------
+
+1)mvn archetype:generate  -> it will create a project structure
+2)mvn validate    ->it will validate project structure
+3)mvn compile     ->it will convert .java files into .class files
+4)mvn test        ->it will test .class files
+5)mvn package     ->it will help to create .jar,.war or .ear
+6)mvn install     ->it will install the package locally
+7)mvn deploy      ->it will install package remotely.
+
+
+create a .jar file using maven:
+-------------------------------
+
+
+1)mvn archetype:generate
+
+  project number :
+  group id       : unique project name (technical adda)
+  artifact id    : out put file name (simplejar.jar)
+  packaage id    : same as group id
+  version        : 1.0-SNAPSHOT
+2)mvn validate
+3)mvn compile
+4)mvn test 
+5)mvn package
+
+To see the content in the .jar file  
+
+ jar -tvf target/simplejar-1.0-SNAPSHOT.jar
+ 
+ java -cp target/simplejar-1.0-SNAPSHOT.jar technicaladda.App
+
+create a .war file using maven:
+-------------------------------
+
+
+1)mvn archetype:generate
+
+  project number :
+  group id       : unique project name (techmine)
+  artifact id    : out put file name (simpleweb.war)
+  packaage id    : same as group id
+  version        : 1.0-SNAPSHOT
+2)mvn validate
+3)mvn compile
+4)mvn test 
+5)mvn package
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
