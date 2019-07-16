@@ -36,6 +36,10 @@ pre-requisities:
    java    ---> yum -y install java-1.8.0-openjdk
    
    javac   ---> yum -y install java-1.8.0-openjdk-devel
+ 
+	debian, ubuntu:
+	---------------
+		- sudo apt-get install openjdk-8-jre
 
 maven uses pom.xml(project object modules) to define the project and it's dependencies. it will help to build the structure of the project,associate the files and help to build the application.
 

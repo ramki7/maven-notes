@@ -1,0 +1,42 @@
+maven deploy to sonarqube for codequality:
+-----------------------------------------
+1)settings.xml:
+--------------
+- edit the global settings file "/opt/maven-3.6.1/conf/settings.xml"
+- place the below commands in <settings> element
+	<pluginGroups>
+        <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+    </pluginGroups>
+and place below also
+	<profiles>
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!-- Optional URL to server. Default value is http://localhost:9000 -->
+                <sonar.host.url>
+                  http://(sonar URL):9000/sonar
+                </sonar.host.url>
+            </properties>
+        </profile>
+     </profiles>
+
+2)edit the pom.xml:
+------------------
+place the plugin in "pom.xml" file	
+<plugins>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.6.0.1398</version>
+      </plugin>
+    </plugins>
+
+3)deploy to sonarqube:
+---------------------
+- to deploy to sonarqube
+	mvn soanr:soanr -Dsonar.login=admin -Dsoanr.password=admin
+			or
+	mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar

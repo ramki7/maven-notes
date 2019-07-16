@@ -1,0 +1,101 @@
+mvn deploy to nexus:
+-------------------
+a)Nexus quickly becomes the only real and mature option for hosting third party artifacts, as well as for reusing internal artifacts across development streams.
+
+- This will show how to deploy the artifacts of a project to Nexus, with Maven.
+
+b)Nexus Requirements in the pom.xml:
+-----------------------------------
+- In order for Maven to be able to deploy the artifacts it creates in the package phase of the build, it needs to define the repository information where - the packaged artifacts will be deployed, via the distributionManagement element: write in <project> element not in <build> element
+
+<distributionManagement>
+   <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <url>http://localhost:8081/repository/maven-snapshots/</url>
+   </snapshotRepository>
+</distributionManagement>
+
+- A hosted, public Snapshots repository comes out of the box on Nexus, so there’s no need to create or configure anything further. Nexus makes it easy to determine the URLs of its hosted repositories
+
+c)Plugins:
+---------
+
+By default, Maven handles the deployment mechanism via the maven-deploy-plugin – this mapped to the deployment phase of the default Maven lifecycle:
+
+<plugin>
+   <artifactId>maven-deploy-plugin</artifactId>
+   <version>2.8.1</version>
+   <executions>
+      <execution>
+         <id>default-deploy</id>
+         <phase>deploy</phase>
+         <goals>
+            <goal>deploy</goal>
+         </goals>
+      </execution>
+   </executions>
+</plugin>
+
+- The maven-deploy-plugin is a viable option to handle the task of deploying to artifacts of a project to Nexus, but it was not built to take full   advantage of what Nexus has to offer.
+- Because of that fact, Sonatype built a Nexus specific plugin – the nexus-staging-maven-plugin – that is actually designed to take full advantage of   the more advanced functionality that Nexus has to offer – functionality such as staging.
+
+- Although for a simple deployment process we do not require staging functionality, we will go forward with this custom Nexus plugin since it was built   with the clear purpose to talk to Nexus well.
+
+- The only reason to use the maven-deploy-plugin is to keep open the option of using an alternative to Nexus in the future – for example, an   Artifactory repository. 
+- However, unlike other components that may actually change throughout the lifecycle of a project, the Maven Repository Manager is highly   unlikely to change, so that flexibility is not required.
+
+- So, the first step in using another deployment plugin in the deploy phase is to disable the existing, default mapping:
+
+<plugin>
+   <groupId>org.apache.maven.plugins</groupId>
+   <artifactId>maven-deploy-plugin</artifactId>
+   <version>${maven-deploy-plugin.version}</version>
+   <configuration>
+      <skip>true</skip>
+   </configuration>
+</plugin>
+
+Now, we can define:
+
+
+<plugin>
+   <groupId>org.sonatype.plugins</groupId>
+   <artifactId>nexus-staging-maven-plugin</artifactId>
+   <version>1.5.1</version>
+   <executions>
+      <execution>
+         <id>default-deploy</id>
+         <phase>deploy</phase>
+         <goals>
+            <goal>deploy</goal>
+         </goals>
+      </execution>
+   </executions>
+   <configuration>
+      <serverId>nexus</serverId>
+      <nexusUrl>http://localhost:8081/nexus/</nexusUrl>
+      <skipStaging>true</skipStaging>
+   </configuration>
+</plugin>
+
+- The deploy goal of the plugin is mapped to the deploy phase of the Maven build.
+
+- Also notice that, as discussed, we do not need staging functionality in a simple deployment of -SNAPSHOT artifacts to Nexus, so that is fully   disabled via the <skipStaging> element.
+
+d)The Global settings.xml:
+-------------------------
+- Deployment to Nexus is a secured operation – and a deployment user exists for this purpose out of the box on any Nexus instance.
+
+- Configuring Maven with the credentials of this deployment user, so that it can interact correctly with Nexus, cannot be done in the pom.xml of the   project. 
+- This is because the syntax of the pom doesn’t allow it, not to mention the fact that the pom may be a public artifact, so not well suited to hold     credential information.
+- The credentials of the server have to be defined in the global Maven setting.xml:
+
+<servers>
+   <server>
+      <id>nexus-snapshots</id>
+      <username>deployment</username>
+      <password>the_pass_for_the_deployment_user</password>
+   </server>
+</servers>
+
+- The server can also be configured to use key based security instead of raw and plaintext credentials.
