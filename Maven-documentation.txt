@@ -44,7 +44,7 @@ pre-requisities:
 maven uses pom.xml(project object modules) to define the project and it's dependencies. it will help to build the structure of the project,associate the files and help to build the application.
 
 Q)how to download and install maven?
- 1)go to maven site , and download .tar.gz file
+ 1)go to maven site , and download .tar.gz file (wget https://dlcdn.apache.org/maven/maven-3/3.8.3/binaries/apache-maven-3.8.3-bin.tar.gz)
  2)extract the file (tar xvfz zpzxhe-mzven-xxx.tar.gz -C /opt/)
  3)configure it for a user 
    M2_HOME=/opt/apache-maven-xxx
@@ -102,66 +102,6 @@ create a .war file using maven:
 3)mvn compile
 4)mvn test 
 5)mvn package
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
